@@ -15,7 +15,7 @@ namespace DevTask.Controllers
         public async Task<IActionResult> Index()
         {
             var repo = new GitHubRepository();
-            repo = await _repositories.GetRepository();
+            repo = await _repositories.GetRepository("jcepriano", "SceneSherpa");
             return View(repo);
         }
     }
