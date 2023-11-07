@@ -1,0 +1,7 @@
+﻿@model User
+
+<h1>@Model.FirstName @Model.LastName</h1>
+
+<form method="post" action="/users/@Model.Id/delete">
+    <button type="submit">Delete User</button>
+</form>

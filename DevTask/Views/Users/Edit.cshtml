@@ -1,0 +1,33 @@
+﻿@model User
+
+<h1>Update a User Profile</h1>
+
+<form method="post" action="/users/@Model.Id">
+    <div class="form-group">
+        <label for="firstname">First Name:</label>
+        <input type="text" id="firstname" name="firstname" value="@Model.FirstName" />
+    </div>
+    <br />
+    <div class="form-group">
+        <label for="lastname">Last Name:</label>
+        <input type="text" id="lastname" name="lastname" value="@Model.LastName" />
+    </div>
+    <br />
+    <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" value="@Model.Email" />
+    </div>
+    <br />
+    <div class="form-group">
+        <label for="githubusername">GitHub Username:</label>
+        <input type="text" id="githubusername" name="githubusername" value="@Model.GitHubUsername" />
+    </div>
+    <br />
+    <div class="form-group">
+        <label for="password"></label>
+        <input type="hidden" id="password" name="password" value="@Model.Password" />
+    </div>
+    <br />
+    <button type="submit">Update Profile</button>
+
+</form>

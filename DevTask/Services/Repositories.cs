@@ -21,19 +21,19 @@ namespace DevTask.Services
             var result = new GitHubRepository();
             var response = await _httpClient.GetAsync(url);
 
-            //if (response.IsSuccessStatusCode)
-            //{
+            if (response.IsSuccessStatusCode)
+            {
                 var stringResponse = await response.Content.ReadAsStringAsync();
                 result = JsonSerializer.Deserialize<GitHubRepository>(stringResponse,
-                    new JsonSerializerOptions()
-                    {
-                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-                    });
-            //}
-            //else
-            //{
-            //    throw new HttpRequestException(response.ReasonPhrase);
-            //}
+                                new JsonSerializerOptions()
+                                {
+                                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                                });
+            }
+            else
+            {
+                throw new HttpRequestException(response.ReasonPhrase);
+            }
 
 
             return result;
