@@ -2,6 +2,11 @@
 
 <h1>@Model.FirstName @Model.LastName</h1>
 
+@foreach (var repo in Model.GitHubRepositories)
+{
+    <li>@repo.Name - @repo.Description</li>
+}
+
 <form method="post" action="/users/@Model.Id/delete">
     <button type="submit">Delete User</button>
 </form>

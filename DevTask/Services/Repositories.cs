@@ -15,10 +15,10 @@ namespace DevTask.Services
                 new ProductInfoHeaderValue("YourAppName", "1.0"));
         }
 
-        public async Task<GitHubRepository> GetRepository(string owner, string repoName)
+        public async Task<List<GitHubRepository>> GetRepositories(string owner, string repoName)
         {
             var url = $"repos/{owner}/{repoName}";
-            var result = new GitHubRepository();
+            var result = new List<GitHubRepository>();
 
             try
             {
@@ -27,7 +27,7 @@ namespace DevTask.Services
                 if (response.IsSuccessStatusCode)
                 {
                     var stringResponse = await response.Content.ReadAsStringAsync();
-                    result = JsonSerializer.Deserialize<GitHubRepository>(stringResponse,
+                    result = JsonSerializer.Deserialize<List<GitHubRepository>>(stringResponse,
                         new JsonSerializerOptions
                         {
                             PropertyNamingPolicy = JsonNamingPolicy.CamelCase

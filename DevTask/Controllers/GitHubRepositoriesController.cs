@@ -12,11 +12,23 @@ namespace DevTask.Controllers
             _repositories = repositories;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string owner, string repoName)
         {
-            var repo = new GitHubRepository();
-            repo = await _repositories.GetRepository("jcepriano", "SceneSherpa");
+            var repo = new List<GitHubRepository>();
+            repo = await _repositories.GetRepositories(owner, repoName);
             return View(repo);
+        }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Index(string owner, User user)
+        {
+            owner = user.GitHubUsername;
+            return RedirectToAction("show", "UsersController");
         }
     }
 }
