@@ -13,8 +13,6 @@ namespace DevTask.Services
             _httpClient = clientFactory.CreateClient("GitHubApi");
             _httpClient.DefaultRequestHeaders.UserAgent.Add(
                 new ProductInfoHeaderValue("YourAppName", "1.0"));
-            // Add any additional headers if required for authentication (e.g., access token)
-            // _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "your_access_token");
         }
 
         public async Task<GitHubRepository> GetRepository(string owner, string repoName)
@@ -37,15 +35,11 @@ namespace DevTask.Services
                 }
                 else
                 {
-                    // If request fails, handle the error or throw an exception
-                    // For example, you can throw an exception with the response reason phrase
                     throw new HttpRequestException(response.ReasonPhrase);
                 }
             }
             catch (Exception ex)
             {
-                // Handle exceptions here
-                // Log the error, return a default GitHubRepository object, or throw the exception
                 throw new Exception("Failed to fetch repository: " + ex.Message);
             }
 
