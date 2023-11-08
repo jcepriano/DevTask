@@ -1,15 +1,20 @@
-﻿using DevTask.Models;
+﻿using DevTask.DataAccess;
+using DevTask.Models;
 using DevTask.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace DevTask.Controllers
 {
     public class GitHubRepositoriesController : Controller
     {
         private readonly Repositories _repositories;
-        public GitHubRepositoriesController(Repositories repositories)
+        private readonly DevTaskContext _context;
+
+        public GitHubRepositoriesController(Repositories repositories, DevTaskContext context)
         {
             _repositories = repositories;
+            _context = context;
         }
 
         /*
@@ -27,18 +32,20 @@ namespace DevTask.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(GitHubRepository repo)
+        public async Task<IActionResult> Index(GitHubRepository repo, User user)
         {
-            var result = await _repositories.GetRepositories(repo.Name);
+            var owner = Request.Cookies["CurrentUserIdUsername"];
+            List<string> userInfo = new List<string>();
+            userInfo.AddRange(owner.Split());
 
-            if (result.Any())
-            {
-                return RedirectToAction("show", "UsersController");
-            }
-            else
-            {
-                return BadRequest("Error occurred while creating the repo");
-            }
+            var result = await _repositories.GetRepositories(userInfo[2], repo.Name);
+
+            _context.GitHubRepositories.Add(repo);
+            _context.SaveChanges();
+
+
+            return RedirectToAction("show", "UsersController");
+
         }
     }
 }

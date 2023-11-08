@@ -40,16 +40,19 @@ namespace DevTask.Controllers
         [HttpPost]
         public IActionResult Index(User user)
         {
-            bool usernames = _context.Users.Any(u => u.GitHubUsername == user.GitHubUsername);
+            //bool usernames = _context.Users.Any(u => u.GitHubUsername == user.GitHubUsername);
 
-            if (usernames)
-            {
-                ModelState.AddModelError("Username", "Username already exists");
-                TempData["ErrorMessage"] = "Username already exists";
-                return Redirect("/users/new");
-            }
+            //if (usernames)
+            //{
+            //    ModelState.AddModelError("Username", "Username already exists");
+            //    TempData["ErrorMessage"] = "Username already exists";
+            //    return Redirect("/users/new");
+            //}
+
             _context.Users.Add(user);
             _context.SaveChanges();
+
+            Response.Cookies.Append("CurrentUserIdUsername", $"{user.Id} {user.Email} {user.GitHubUsername}");
 
             return Redirect($"/users/{user.Id}");
         }

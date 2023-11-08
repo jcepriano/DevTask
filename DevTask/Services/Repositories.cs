@@ -7,22 +7,19 @@ namespace DevTask.Services
     public class Repositories
     {
         private readonly HttpClient _httpClient;
-        private readonly User _user;
 
-        public Repositories(IHttpClientFactory clientFactory, User user)
+        public Repositories(IHttpClientFactory clientFactory)
         {
             _httpClient = clientFactory.CreateClient("GitHubApi");
             _httpClient.DefaultRequestHeaders.UserAgent.Add(
                 new ProductInfoHeaderValue("YourAppName", "1.0"));
 
-            _user = user;
         }
 
-        public async Task<List<GitHubRepository>> GetRepositories(string repoName)
+        public async Task<GitHubRepository> GetRepositories(string owner, string repoName)
         {
-            string owner = _user.GitHubUsername;
             var url = $"repos/{owner}/{repoName}";
-            var result = new List<GitHubRepository>();
+            var result = new GitHubRepository();
 
             try
             {
@@ -31,7 +28,7 @@ namespace DevTask.Services
                 if (response.IsSuccessStatusCode)
                 {
                     var stringResponse = await response.Content.ReadAsStringAsync();
-                    result = JsonSerializer.Deserialize<List<GitHubRepository>>(stringResponse,
+                    result = JsonSerializer.Deserialize<GitHubRepository>(stringResponse,
                         new JsonSerializerOptions
                         {
                             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
