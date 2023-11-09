@@ -55,6 +55,7 @@ namespace DevTask.Controllers
 
             repo.OwnerName = user.FirstName;
             repo.User = user;
+            repo.Id = result.Id;
             repo.Description = result.Description;
 
             _context.GitHubRepositories.Add(repo);
