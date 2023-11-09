@@ -1,0 +1,11 @@
+﻿@model User
+
+<h1>Please input the name of the Github Repository</h1>
+
+<form method="post" action="/users/@Model.Id/repos">
+    <div class="form-group">
+        <label for="name">Repo Name: </label>
+        <input type="text" class="form-control" id="name" name="name" required>
+    </div>
+    <button type="submit">Submit</button>
+</form>
