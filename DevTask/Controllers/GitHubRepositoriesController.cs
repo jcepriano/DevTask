@@ -2,6 +2,7 @@
 using DevTask.Models;
 using DevTask.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace DevTask.Controllers
@@ -26,25 +27,41 @@ namespace DevTask.Controllers
         }
         */
 
-        public IActionResult CreateRepo()
+        [Route("users/{id:int}/repos/new")]
+        public IActionResult CreateRepo(int id)
         {
-            return View();
+            var user = _context.Users
+                .Where(u => u.Id == id)
+                .Include(u => u.GitHubRepositories)
+                .FirstOrDefault();
+
+            return View(user);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(GitHubRepository repo, User user)
+        [Route("users/{id:int}/repos")]
+        public async Task<IActionResult> Index(GitHubRepository repo, int id)
         {
+            var user = _context.Users
+                .Where(u => u.Id == id)
+                .Include(u => u.GitHubRepositories)
+                .FirstOrDefault();
+
             var owner = Request.Cookies["CurrentUserIdUsername"];
             List<string> userInfo = new List<string>();
             userInfo.AddRange(owner.Split());
 
             var result = await _repositories.GetRepositories(userInfo[2], repo.Name);
 
+            repo.OwnerName = user.FirstName;
+            repo.User = user;
+            repo.Description = result.Description;
+
             _context.GitHubRepositories.Add(repo);
             _context.SaveChanges();
 
 
-            return RedirectToAction("show", "UsersController");
+            return Redirect($"/users/{user.Id}");
 
         }
     }
