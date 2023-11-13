@@ -19,29 +19,33 @@ namespace DevTask.Controllers
             return View();
         }
 
-        [Route("/users/{userId:int}/repos/{repoId:int}/tasks/new")]
-        public IActionResult New(int userId, int repoId)
+        [Route("repos/{repoId:int}/tasks/new")]
+        public IActionResult New(int repoId)
         {
-            var repo = _context.Users
-                .Where(u => u.Id == userId)
-                .Include(u => u.GitHubRepositories)
-                .ThenInclude(repo => repo.Tasks)
+            var repo = _context.GitHubRepositories
+                .Where(r => r.Id == repoId)
+                .Include(r => r.Tasks)
                 .FirstOrDefault();
 
             return View(repo);
         }
 
         [HttpPost]
-        [Route("/users/{userId:int}/repos/{repoId:int}/tasks")]
-        public IActionResult Create(int userId)
+        [Route("repos/{repoId:int}/tasks")]
+        public IActionResult Create(Models.Task task, int repoId)
         {
-            var repo = _context.Users
-                .Where(u => u.Id == userId)
-                .Include(u => u.GitHubRepositories)
-                .ThenInclude(repo => repo.Tasks)
+            var repo = _context.GitHubRepositories
+                .Where(r => r.Id == repoId)
+                .Include(r => r.Tasks)
                 .FirstOrDefault();
 
+            if (repo == null) return NotFound();
 
+            task.GitHubRepository = repo;
+            repo.Tasks.Add(task);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index", "GitHubRepositories");
         }
     }
 }
