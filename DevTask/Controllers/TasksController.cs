@@ -36,10 +36,14 @@ namespace DevTask.Controllers
         {
             var repo = _context.GitHubRepositories
                 .Where(r => r.Id == repoId)
+                .Include(r => r.User)
                 .Include(r => r.Tasks)
                 .FirstOrDefault();
 
             if (repo == null) return NotFound();
+
+            task.IsActive = true;
+            task.User = repo.User;
 
             task.GitHubRepository = repo;
             repo.Tasks.Add(task);
