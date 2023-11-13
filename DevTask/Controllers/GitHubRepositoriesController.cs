@@ -18,18 +18,19 @@ namespace DevTask.Controllers
             _context = context;
         }
 
-        /*
-        public async Task<IActionResult> Index(string owner, string repoName)
+        
+        public async Task<IActionResult> Index()
         {
-            var repo = new List<GitHubRepository>();
-            repo = await _repositories.GetRepositories(owner, repoName);
+            ViewData["CurrentUserIdUsername"] = Request.Cookies["CurrentUserIdUsername"];
+            var repo = _context.GitHubRepositories.ToList();
             return View(repo);
         }
-        */
+        
 
         [Route("users/{id:int}/repos/new")]
         public IActionResult CreateRepo(int id)
         {
+            ViewData["CurrentUserIdUsername"] = Request.Cookies["CurrentUserIdUsername"];
             var user = _context.Users
                 .Where(u => u.Id == id)
                 .Include(u => u.GitHubRepositories)
@@ -42,6 +43,7 @@ namespace DevTask.Controllers
         [Route("users/{id:int}/repos")]
         public async Task<IActionResult> Index(GitHubRepository repo, int id)
         {
+            ViewData["CurrentUserIdUsername"] = Request.Cookies["CurrentUserIdUsername"];
             var user = _context.Users
                 .Where(u => u.Id == id)
                 .Include(u => u.GitHubRepositories)
