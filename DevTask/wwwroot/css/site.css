@@ -732,7 +732,7 @@ progress {
 }
 
     .blockquote-footer::before {
-        content: "— ";
+        content: "ï¿½ï¿½";
     }
 
 .img-fluid {
@@ -14229,4 +14229,10 @@ legend {
 
 .list-group-item-action:hover {
     background-color: #23272b;
+}
+
+.force-right {
+    float: right !important;
+    margin-right: 0px;
+    padding-right: 0px;
 }

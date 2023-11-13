@@ -16,12 +16,14 @@ namespace DevTask.Controllers
 
         public IActionResult Index()
         {
+            ViewData["CurrentUserIdUsername"] = Request.Cookies["CurrentUserIdUsername"];
             return View();
         }
 
         [Route("repos/{repoId:int}/tasks/new")]
         public IActionResult New(int repoId)
         {
+            ViewData["CurrentUserIdUsername"] = Request.Cookies["CurrentUserIdUsername"];
             var repo = _context.GitHubRepositories
                 .Where(r => r.Id == repoId)
                 .Include(r => r.Tasks)
@@ -34,6 +36,7 @@ namespace DevTask.Controllers
         [Route("repos/{repoId:int}/tasks")]
         public IActionResult Create(Models.Task task, int repoId)
         {
+            ViewData["CurrentUserIdUsername"] = Request.Cookies["CurrentUserIdUsername"];
             var repo = _context.GitHubRepositories
                 .Where(r => r.Id == repoId)
                 .Include(r => r.User)
