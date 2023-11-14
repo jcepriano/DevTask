@@ -14236,3 +14236,12 @@ legend {
     margin-right: 0px;
     padding-right: 0px;
 }
+
+.card-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+    .card-link:hover {
+        color: inherit;
+    }

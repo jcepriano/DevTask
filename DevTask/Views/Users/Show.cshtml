@@ -2,10 +2,37 @@
 
 <h1>@Model.FirstName @Model.LastName</h1>
 
-@foreach (var repo in Model.GitHubRepositories)
-{
-    <li>@repo.Name - @repo.Description</li>
-}
+
+
+
+<div class="container">
+    <div class="row">
+        @foreach (var repo in Model.GitHubRepositories)
+        {
+            <div class="col-md-4 mb-3">
+                <a href="/repo/@repo.Id" class="card-link">
+                    <div class="card">
+                        <a href="/repo/@repo.Id" class="card-link">
+                            <li class="align-card">
+                                <div class="card mb-3">
+                                    <h4 class="card-header">@repo.Name</h4>
+                                    <div class="card-body">
+                                        <h5 class="card-title">@repo.OwnerName</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="card-text">@repo.Description</p>
+                                    </div>
+                                </div>
+                            </li>
+                        </a>
+                    </div>
+                </a>
+            </div>
+        }
+    </div>
+</div>
+
+
 
 <form method="post" action="/users/@Model.Id/delete">
     <button type="submit">Delete User</button>

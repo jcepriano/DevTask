@@ -15,7 +15,7 @@ namespace DevTask.Controllers
 
         public IActionResult Index()
         {
-            ViewData["CurrentUserIdUsername"] = Request.Cookies["CurrentUserIdUsername"];
+            ViewData["CurrentUser"] = Request.Cookies["CurrentUser"];
             return View();
         }
 

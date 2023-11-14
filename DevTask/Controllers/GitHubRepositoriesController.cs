@@ -21,7 +21,7 @@ namespace DevTask.Controllers
         
         public async Task<IActionResult> Index()
         {
-            ViewData["CurrentUserIdUsername"] = Request.Cookies["CurrentUserIdUsername"];
+            ViewData["CurrentUser"] = Request.Cookies["CurrentUser"];
             var repo = _context.GitHubRepositories.ToList();
             return View(repo);
         }
@@ -30,7 +30,7 @@ namespace DevTask.Controllers
         [Route("users/{id:int}/repos/new")]
         public IActionResult CreateRepo(int id)
         {
-            ViewData["CurrentUserIdUsername"] = Request.Cookies["CurrentUserIdUsername"];
+            ViewData["CurrentUser"] = Request.Cookies["CurrentUser"];
             var user = _context.Users
                 .Where(u => u.Id == id)
                 .Include(u => u.GitHubRepositories)
@@ -43,19 +43,19 @@ namespace DevTask.Controllers
         [Route("users/{id:int}/repos")]
         public async Task<IActionResult> Index(GitHubRepository repo, int id)
         {
-            ViewData["CurrentUserIdUsername"] = Request.Cookies["CurrentUserIdUsername"];
+            ViewData["CurrentUser"] = Request.Cookies["CurrentUser"];
             var user = _context.Users
                 .Where(u => u.Id == id)
                 .Include(u => u.GitHubRepositories)
                 .FirstOrDefault();
 
-            var owner = Request.Cookies["CurrentUserIdUsername"];
+            var owner = Request.Cookies["CurrentUser"];
             List<string> userInfo = new List<string>();
             userInfo.AddRange(owner.Split());
 
             var result = await _repositories.GetRepositories(userInfo[2], repo.Name);
 
-            repo.OwnerName = user.FirstName;
+            repo.OwnerName = user.FirstName + user.LastName;
             repo.User = user;
             repo.Id = result.Id;
             repo.Description = result.Description;
