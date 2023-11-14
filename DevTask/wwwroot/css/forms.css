@@ -38,6 +38,7 @@
 }
 
 .NewUser {
+    
     height: 775px;
     width: 400px;
     background-color: rgba(255,255,255,0.13);
@@ -52,20 +53,14 @@
     padding: 50px 35px;
 }
 
-    .NewUser * {
-        font-family: 'Poppins',sans-serif;
-        color: #ffffff;
-        letter-spacing: 0.5px;
-        outline: none;
-        border: none;
-    }
-
-.NewUser h3 {
-    font-size: 32px;
-    font-weight: 500;
-    line-height: 42px;
-    text-align: center;
+.NewUser * {
+    font-family: 'Poppins',sans-serif;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+    outline: none;
+    border: none;
 }
+
 
 .signup {
     height: 800px;
