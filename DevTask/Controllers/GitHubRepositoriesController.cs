@@ -25,6 +25,19 @@ namespace DevTask.Controllers
             var repo = _context.GitHubRepositories.ToList();
             return View(repo);
         }
+
+        [Route("users/{userId:int}/repos/{repoId}")]
+        public IActionResult Show(int userId, int repoId)
+        {
+            ViewData["CurrentUser"] = Request.Cookies["CurrentUser"];
+            var repo = _context.GitHubRepositories
+                .Where(u => u.User.Id == userId)
+                .Where(u => u.Id == repoId)
+                .Include(u => u.Tasks)
+                .FirstOrDefault();
+
+            return View(repo);
+        }
         
 
         [Route("users/{id:int}/repos/new")]
@@ -65,7 +78,6 @@ namespace DevTask.Controllers
 
 
             return Redirect($"/users/{user.Id}");
-
         }
     }
 }

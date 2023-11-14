@@ -1,0 +1,36 @@
+﻿@model GitHubRepository
+
+<h1>@Model.Name</h1>
+
+<h3>@Model.Description</h3>
+
+@if (Model.Tasks != null)
+{
+    foreach (var task in Model.Tasks)
+    {
+        <div class="col-md-4 mb-3">
+            <a href="/repo/@task.Id" class="card-link">
+                <div class="card">
+                    <a href="/repo/@task.Id" class="card-link">
+                        <ul style="list-style:none">
+                            <li class="align-card">
+                                <div class="card mb-3">
+                                    <h4 class="card-header">@task.Name</h4>
+                                    <div class="card-body">
+                                        <p class="card-text">@task.Description</p>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </a>
+                </div>
+            </a>
+        </div>
+    }
+}
+else
+{
+    <p>There are currently no tasks for this repo</p>
+}
+
+<a href="/repos/@Model.Id/tasks/new">Add a task</a>
