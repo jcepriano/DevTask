@@ -16,27 +16,28 @@ namespace DevTask.Controllers
 
         public IActionResult Index()
         {
-            ViewData["CurrentUserIdUsername"] = Request.Cookies["CurrentUserIdUsername"];
+            ViewData["CurrentUser"] = Request.Cookies["CurrentUser"];
             return View();
         }
 
         [Route("repos/{repoId:int}/tasks/new")]
         public IActionResult New(int repoId)
         {
-            ViewData["CurrentUserIdUsername"] = Request.Cookies["CurrentUserIdUsername"];
+            ViewData["CurrentUser"] = Request.Cookies["CurrentUser"];
             var repo = _context.GitHubRepositories
                 .Where(r => r.Id == repoId)
                 .Include(r => r.Tasks)
+                .Include(r => r.User)
                 .FirstOrDefault();
 
             return View(repo);
         }
 
         [HttpPost]
-        [Route("repos/{repoId:int}/tasks")]
-        public IActionResult Create(Models.Task task, int repoId)
+        [Route("users/{userId:int}/repos/{repoId:int}/tasks")]
+        public IActionResult Create(Models.Task task, int repoId, int userId)
         {
-            ViewData["CurrentUserIdUsername"] = Request.Cookies["CurrentUserIdUsername"];
+            ViewData["CurrentUser"] = Request.Cookies["CurrentUser"];
             var repo = _context.GitHubRepositories
                 .Where(r => r.Id == repoId)
                 .Include(r => r.User)
@@ -52,7 +53,7 @@ namespace DevTask.Controllers
             repo.Tasks.Add(task);
             _context.SaveChanges();
 
-            return RedirectToAction("Index", "GitHubRepositories");
+            return Redirect($"/users/{userId}/repos/{repoId}");
         }
     }
 }

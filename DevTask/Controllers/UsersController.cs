@@ -17,7 +17,7 @@ namespace DevTask.Controllers
 
         public IActionResult Index()
         {
-            ViewData["CurrentUserIdUsername"] = Request.Cookies["CurrentUserIdUsername"];
+            ViewData["CurrentUser"] = Request.Cookies["CurrentUser"];
             return View();
         }
 
@@ -29,7 +29,7 @@ namespace DevTask.Controllers
                 .Include(u => u.GitHubRepositories)
                 .FirstOrDefault();
 
-            ViewData["CurrentUserIdUsername"] = Request.Cookies["CurrentUserIdUsername"];
+            ViewData["CurrentUser"] = Request.Cookies["CurrentUser"];
 
             return View(user);
         }
@@ -37,7 +37,7 @@ namespace DevTask.Controllers
         [Route("/users/new")]
         public IActionResult New()
         {
-            ViewData["CurrentUserIdUsername"] = Request.Cookies["CurrentUserIdUsername"];
+            ViewData["CurrentUser"] = Request.Cookies["CurrentUser"];
             return View();
         }
 
@@ -57,9 +57,9 @@ namespace DevTask.Controllers
             _context.Users.Add(user);
             _context.SaveChanges();
 
-            Response.Cookies.Append("CurrentUserIdUsername", $"{user.Id} {user.Email} {user.GitHubUsername}");
+            Response.Cookies.Append("CurrentUser", $"{user.Id} {user.FirstName} {user.GitHubUsername}");
 
-            ViewData["CurrentUserIdUsername"] = Request.Cookies["CurrentUserIdUsername"];
+            ViewData["CurrentUser"] = Request.Cookies["CurrentUser"];
 
             return Redirect($"/users/{user.Id}");
         }
@@ -67,7 +67,7 @@ namespace DevTask.Controllers
         [Route("users/{id:int}/edit")]
         public IActionResult Edit(int id)
         {
-            ViewData["CurrentUserIdUsername"] = Request.Cookies["CurrentUserIdUsername"];
+            ViewData["CurrentUser"] = Request.Cookies["CurrentUser"];
             var user = _context.Users.Find(id);
             return View(user);
         }
@@ -76,7 +76,7 @@ namespace DevTask.Controllers
         [Route("users/{id:int}")]
         public IActionResult Update(int id, User user)
         {
-            ViewData["CurrentUserIdUsername"] = Request.Cookies["CurrentUserIdUsername"];
+            ViewData["CurrentUser"] = Request.Cookies["CurrentUser"];
             //var existingUser = _context.Users.Find(id);
             //existingUser.Password = user.Password;
             user.Id = id;
@@ -101,7 +101,7 @@ namespace DevTask.Controllers
             _context.Users.Remove(user);
             _context.SaveChanges();
 
-            Response.Cookies.Delete("CurrentUserIdUsername");
+            Response.Cookies.Delete("CurrentUser");
 
             return RedirectToAction("index");
 
@@ -110,7 +110,7 @@ namespace DevTask.Controllers
         [Route("/users/login")]
         public IActionResult LoginForm()
         {
-            ViewData["CurrentUserIdUsername"] = Request.Cookies["CurrentUserIdUsername"];
+            ViewData["CurrentUser"] = Request.Cookies["CurrentUser"];
             ViewData["FailedLogin"] = TempData["FailedLogin"];
             return View();
         }
@@ -119,7 +119,7 @@ namespace DevTask.Controllers
         [Route("/users/login/attempt")]
         public IActionResult LoginAttempt(string email, string password)
         {
-            ViewData["CurrentUserIdUsername"] = Request.Cookies["CurrentUserIdUsername"];
+            ViewData["CurrentUser"] = Request.Cookies["CurrentUser"];
             Console.WriteLine($"Email: {email}, Password: {password}");
 
             string FailedLogin = "Either your password or username is incorrect, please try again.";
@@ -169,7 +169,7 @@ namespace DevTask.Controllers
         {
             if (id != null)
             {
-                Response.Cookies.Delete("CurrentUserIdUsername");
+                Response.Cookies.Delete("CurrentUser");
             }
 
             return Redirect("/githubrepositories");
@@ -191,7 +191,7 @@ namespace DevTask.Controllers
 
         public void AppendIdUsernameCookie(User user)
         {
-            Response.Cookies.Append("CurrentUserIdUsername", $"{user.Id} {user.Email} {user.GitHubUsername}");
+            Response.Cookies.Append("CurrentUser", $"{user.Id} {user.FirstName} {user.GitHubUsername}");
         }
     }
 }

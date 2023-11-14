@@ -1,5 +1,5 @@
 ﻿@{
-    string CurrentUserIdUsername = ViewData["CurrentUserIdUsername"] as string;
+    string CurrentUserIdUsername = ViewData["CurrentUser"] as string;
 
     List<string> CurrentUser = new List<string>();
     if (CurrentUserIdUsername != null)
@@ -40,11 +40,11 @@
 
                     </ul>
                     <ul style="list-style:none; margin-top:14px;">
-                        @if (ViewData["CurrentUserIdUsername"] != null)
+                        @if (ViewData["CurrentUser"] != null)
                         {
                             <li class="force-right nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-black" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">@CurrentUser[1]</a>
-                                <div class="dropdown-menu" style="">
+                                <div class="dropdown-menu" style="margin-right: 40px !important;">
                                     <h6 class="dropdown-header">Options</h6>
                                     <a class="dropdown-item" href="/Users/@CurrentUser[0]">My Profile</a>
                                     <!--Can add more options here, add the link to href, and content between ><  -->
@@ -56,7 +56,7 @@
                             </li>
                         }
                         <li>
-                            @if (ViewData["CurrentUserIdUsername"] == null)
+                            @if (ViewData["CurrentUser"] == null)
                             {
                                 <form class="force-right" action="/users/login">
                                     <button type="submit" class="btn btn-light" asp-controller="Users" asp-action="Login">Log In</button>
