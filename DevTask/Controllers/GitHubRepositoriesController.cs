@@ -72,7 +72,11 @@ namespace DevTask.Controllers
             repo.User = user;
             repo.Id = result.Id;
             repo.Description = result.Description;
-
+            
+            if (repo.Description == null)
+            {
+                repo.Description = "No Description";
+            }
             _context.GitHubRepositories.Add(repo);
             _context.SaveChanges();
 
