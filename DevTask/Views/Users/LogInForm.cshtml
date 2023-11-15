@@ -31,12 +31,29 @@
 
         <button type="submit" class="login-button">Log In</button>
     </form>
-    <form action="/users/googlelogin">
-        <!--GOOGLE API LOGIN BUTTON-->
-        <button type="submit" class="btn btn-primary login-social"><i class="fab fa-google"></i>  Google</button>
-    </form>
-    <form action="/users/new">
-        <button type="submit" class="btn btn-primary login-social">Sign Up</button>
-    </form>
+    <br />
+    <style>
+        /* Add a container to hold the forms */
+        .form-container {
+            display: flex;
+            justify-content: space-between; /* Optional: Adjust as needed */
+        }
+
+        /* Optional: Style each form individually if necessary */
+        form {
+            /* Add specific styles for each form if needed */
+        }
+    </style>
+
+    <div class="form-container">
+        <form action="/users/googlelogin">
+            <!--GOOGLE API LOGIN BUTTON-->
+            <button type="submit" class="btn btn-primary login-social"><i class="fab fa-google"></i> Google</button>
+        </form>
+
+        <form action="/users/new">
+            <button type="submit" class="btn btn-primary login-social">Sign Up</button>
+        </form>
+    </div>
 
 </div>

@@ -187,7 +187,6 @@ namespace DevTask.Controllers
                 c.Type,
                 c.Value
             });
-
             return Json(claims);
         }
 
