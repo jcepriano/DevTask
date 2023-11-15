@@ -1,18 +1,25 @@
 ﻿using DevTask.DataAccess;
 using DevTask.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Net.WebSockets;
+using System.Security.Claims;
+using Umbraco.Core.Persistence.Repositories;
 
 namespace DevTask.Controllers
 {
     public class UsersController : Controller
     {
         private readonly DevTaskContext _context;
+        private readonly IUserRepository _userRepository;
 
-        public UsersController(DevTaskContext context)
+        public UsersController(DevTaskContext context, IUserRepository userRepository)
         {
             _context = context;
+            _userRepository = userRepository;
         }
 
         public IActionResult Index()
@@ -163,6 +170,65 @@ namespace DevTask.Controllers
             }
             return Redirect("/users/login");
         }
+
+        [AllowAnonymous]
+        [Route("/users/login/google")]
+        public IActionResult ExternalLogin(string provider, string returnUrl = null)
+        {
+            // Request a redirect to the external login provider.
+            var redirectUrl = Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl });
+            var properties = new AuthenticationProperties { RedirectUri = redirectUrl };
+            return Challenge(properties, provider);
+        }
+
+        [AllowAnonymous]
+        [Route("/users/{id:int}/login")]
+        public async Task<IActionResult> ExternalLoginCallback(int id, string returnUrl = null, string remoteError = null)
+        {
+            if (remoteError != null)
+            {
+                // Handle the error
+                return RedirectToAction("Login"); // Redirect to your login page or handle accordingly
+            }
+
+            var info = await SignInManager.GetExternalLoginInfoAsync();
+            if (info == null)
+            {
+                // Handle the error
+                return RedirectToAction("Login"); // Redirect to your login page or handle accordingly
+            }
+
+            // Extract user information from the external login info
+            var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+            var userId = info.Principal.FindFirstValue(ClaimTypes.NameIdentifier);
+            var displayName = info.Principal.FindFirstValue(ClaimTypes.Name);
+
+            // Check if the user with this email already exists in your database
+            var existingUser = await _yourUserRepository.GetUserByEmailAsync(email);
+
+            if (existingUser != null)
+            {
+                // The user already exists, you may want to sign them in
+                // Your sign-in logic here
+            }
+            else
+            {
+                // Create a new user based on the external login info
+                var newUser = new User
+                {
+                    Email = email,
+                    // Other properties as needed
+                };
+
+                // Save the new user to your database using your own repository or service
+                _yourUserRepository.CreateUser(newUser); // Assuming a synchronous operation; adapt for async
+
+                // Your sign-in logic here
+            }
+
+            return Redirect($"users/{id}");
+        }
+
 
         [Route("/users/{id:int}/Logout")]
         public IActionResult Logout(int id)

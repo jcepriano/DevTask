@@ -1,6 +1,10 @@
 using DevTask.DataAccess;
+using DevTask.Models;
 using DevTask.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.EntityFrameworkCore;
+using Umbraco.Core.Persistence.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +23,18 @@ builder.Services.AddDbContext<DevTaskContext>(
             )
             .UseSnakeCaseNamingConvention()
 );
+builder.Services.AddScoped<IUserRepository>();
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+})
+.AddCookie()
+.AddGoogle(options =>
+{
+    options.ClientId = "";
+    options.ClientSecret = "";
+});
 
 var app = builder.Build();
 
@@ -35,6 +51,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
