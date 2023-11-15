@@ -1,5 +1,8 @@
 ﻿using DevTask.DataAccess;
 using DevTask.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Net.WebSockets;
@@ -162,6 +165,30 @@ namespace DevTask.Controllers
                 TempData["FailedLogin"] = FailedLogin;
             }
             return Redirect("/users/login");
+        }
+
+        public async System.Threading.Tasks.Task GoogleLogin()
+        {
+            await HttpContext.ChallengeAsync(GoogleDefaults.AuthenticationScheme,
+                new AuthenticationProperties
+                {
+                    RedirectUri = Url.Action("GoogleResponse")
+                });
+        }
+
+        public async Task<IActionResult> GoogleResponse()
+        {
+            var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            var claims = result.Principal.Identities.FirstOrDefault().Claims.Select(c => new
+            {
+                c.Issuer,
+                c.OriginalIssuer,
+                c.Type,
+                c.Value
+            });
+
+            return Json(claims);
         }
 
         [Route("/users/{id:int}/Logout")]
