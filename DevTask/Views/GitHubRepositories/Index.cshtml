@@ -2,8 +2,18 @@
 
 <h1>Repo Details</h1>
 
-@foreach(var repo in Model)
+@if (Model != null)
 {
-    <p>@repo.Name</p>
-    <p>@repo.Description</p>
+    @foreach (var repo in Model)
+    {
+        if (repo.User != null)
+        {
+            <img src="https://github-readme-stats.vercel.app/api/pin/?username=@(repo.User.GitHubUsername)&repo=@(repo.Name)" />
+            <p>Tasks: @repo.Tasks.Count</p>
+        }
+        else
+        {
+            <p>User information not available for repository: @(repo.Name)</p>
+        }
+    }
 }

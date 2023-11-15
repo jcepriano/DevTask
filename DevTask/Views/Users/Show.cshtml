@@ -2,6 +2,8 @@
 
 <h1>@Model.FirstName @Model.LastName</h1>
 
+<br />
+
 
 
 @foreach(var repo in Model.GitHubRepositories)
@@ -12,9 +14,15 @@
 }
 
 
-<form method="post" action="/users/@Model.Id/delete">
-    <button type="submit">Delete User</button>
-</form>
+<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Settings</a>
+<div class="dropdown-menu" style="">
+    <h6 class="dropdown-header">Options</h6>
+    <form method="post" action="/users/@Model.Id/delete">
+        <button type="submit" class="btn btn-primary btn-sm">DELETE @Model.FirstName</button>
+    </form>
+    <form action="/Users/@Model.Id/Edit">
+        <button type="submit" class="btn btn-primary btn-sm" style="margin-top: 5px !important;">EDIT @Model.FirstName</button>
+    </form>
 
 <!--<div class="container">
     <div class="row">

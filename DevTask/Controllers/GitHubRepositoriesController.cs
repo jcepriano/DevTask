@@ -22,7 +22,10 @@ namespace DevTask.Controllers
         public async Task<IActionResult> Index()
         {
             ViewData["CurrentUser"] = Request.Cookies["CurrentUser"];
-            var repo = _context.GitHubRepositories.ToList();
+            var repo = _context.GitHubRepositories
+                .Include(r => r.User)
+                .Include(r => r.Tasks)
+                .ToList();
             return View(repo);
         }
 

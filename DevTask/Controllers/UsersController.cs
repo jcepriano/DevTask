@@ -97,7 +97,7 @@ namespace DevTask.Controllers
                 .Where(u => u.Id == userId)
                 .Include(u => u.Tasks)
                 .Include(u => u.GitHubRepositories)
-                .FirstOrDefault(u => u.Id == userId);
+                .FirstOrDefault();
 
             _context.Tasks.RemoveRange(user.Tasks);
             _context.GitHubRepositories.RemoveRange(user.GitHubRepositories);
@@ -106,7 +106,7 @@ namespace DevTask.Controllers
 
             Response.Cookies.Delete("CurrentUser");
 
-            return RedirectToAction("index");
+            return RedirectToAction("index", "GitHubRepositories");
 
         }
 
