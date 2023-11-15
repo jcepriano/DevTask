@@ -176,6 +176,7 @@ namespace DevTask.Controllers
                 });
         }
 
+        [Route("/signin-google")]
         public async Task<IActionResult> GoogleResponse()
         {
             var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
