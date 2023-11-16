@@ -45,7 +45,8 @@ namespace DevTask.Controllers
                 .FirstOrDefault();
 
             if (repo == null) return NotFound();
-
+            if (task.Description == null) task.Description = "";
+            
             task.IsActive = true;
             task.User = repo.User;
 
@@ -60,7 +61,12 @@ namespace DevTask.Controllers
         public IActionResult Edit(int taskId)
         {
             ViewData["CurrentUser"] = Request.Cookies["CurrentUser"];
-            var task = _context.Tasks.Find(taskId);
+            var task = _context.Tasks
+                .Where(t => t.Id == taskId)
+                .Include(t => t.User)
+                .Include(t => t.GitHubRepository)
+                .FirstOrDefault();
+            if (task.Description == null) task.Description = "";
 
             return View(task);
         }
@@ -72,7 +78,7 @@ namespace DevTask.Controllers
             ViewData["CurrentUser"] = Request.Cookies["CurrentUser"];
             task.Id = taskId;
             if (task == null) return NotFound();
-
+            if (task.Description == null) task.Description = "";
             task.IsActive = true;
             //task.User = repo.User;
 

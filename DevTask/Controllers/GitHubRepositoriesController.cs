@@ -37,6 +37,7 @@ namespace DevTask.Controllers
                 .Where(u => u.User.Id == userId)
                 .Where(u => u.Id == repoId)
                 .Include(u => u.Tasks)
+                .Include(u => u.User)
                 .FirstOrDefault();
 
             return View(repo);

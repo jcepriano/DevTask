@@ -5,12 +5,12 @@
 <form method="post" action="/users/@Model.User.Id/repos/@Model.GitHubRepository.Id/tasks/@Model.Id">
     <div class="form-group">
         <label for="name">Name: </label>
-        <input type="text" id="name" name="name" />
+        <input type="text" id="name" name="name" value="@Model.Name" />
     </div>
     <br />
     <div class="form-group">
         <label for="description">Description: </label>
-        <input type="text" id="description" name="description" />
+        <input type="text" id="description" name="description" value="@Model.Description" />
     </div>
     <br />
     <button type="submit">Create Task</button>
