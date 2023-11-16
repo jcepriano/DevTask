@@ -1,8 +1,8 @@
-﻿@model Task
+﻿@model DevTask.Models.Task
 
 <h1>Add a Task</h1>
 
-<form method="post" action="/users/@Model.User.Id/repos/@Model.GitHubRepositories.Id/tasks/@Model.Id">
+<form method="post" action="/users/@Model.User.Id/repos/@Model.GitHubRepository.Id/tasks/@Model.Id">
     <div class="form-group">
         <label for="name">Name: </label>
         <input type="text" id="name" name="name" />
