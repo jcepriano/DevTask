@@ -1,0 +1,17 @@
+﻿@model Task
+
+<h1>Add a Task</h1>
+
+<form method="post" action="/users/@Model.User.Id/repos/@Model.GitHubRepositories.Id/tasks/@Model.Id">
+    <div class="form-group">
+        <label for="name">Name: </label>
+        <input type="text" id="name" name="name" />
+    </div>
+    <br />
+    <div class="form-group">
+        <label for="description">Description: </label>
+        <input type="text" id="description" name="description" />
+    </div>
+    <br />
+    <button type="submit">Create Task</button>
+</form>

@@ -55,5 +55,32 @@ namespace DevTask.Controllers
 
             return Redirect($"/users/{userId}/repos/{repoId}");
         }
+
+        [Route("repos/{repoId:int}/tasks/{taskId:int}/edit")]
+        public IActionResult Edit(int taskId)
+        {
+            ViewData["CurrentUser"] = Request.Cookies["CurrentUser"];
+            var task = _context.Tasks.Find(taskId);
+
+            return View(task);
+        }
+
+        [HttpPost]
+        [Route("users/{userId:int}/repos/{repoId:int}/tasks/{taskId:int}")]
+        public IActionResult Update(Models.Task task, int taskId, int repoId, int userId)
+        {
+            ViewData["CurrentUser"] = Request.Cookies["CurrentUser"];
+            task.Id = taskId;
+            if (task == null) return NotFound();
+
+            task.IsActive = true;
+            //task.User = repo.User;
+
+            //task.GitHubRepository = repo;
+            _context.Tasks.Update(task);
+            _context.SaveChanges();
+
+            return Redirect($"/users/{userId}/repos/{repoId}");
+        }
     }
 }
