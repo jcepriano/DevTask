@@ -1,33 +1,38 @@
 ﻿@model User
 
-<h1>Update a User Profile</h1>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link rel="stylesheet" href="/css/forms.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
 
-<form method="post" action="/users/@Model.Id">
-    <div class="form-group">
-        <label for="firstname">First Name:</label>
-        <input type="text" id="firstname" name="firstname" value="@Model.FirstName" />
-    </div>
-    <br />
-    <div class="form-group">
-        <label for="lastname">Last Name:</label>
-        <input type="text" id="lastname" name="lastname" value="@Model.LastName" />
-    </div>
-    <br />
-    <div class="form-group">
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" value="@Model.Email" />
-    </div>
-    <br />
-    <div class="form-group">
-        <label for="githubusername">GitHub Username:</label>
-        <input type="text" id="githubusername" name="githubusername" value="@Model.GitHubUsername" />
-    </div>
-    <br />
-    <div class="form-group">
-        <label for="password"></label>
-        <input type="hidden" id="password" name="password" value="@Model.Password" />
-    </div>
-    <br />
-    <button type="submit">Update Profile</button>
+<h1>Create a New User Profile</h1>
 
-</form>
+<div class="background">
+    <div class="shape"></div>
+    <div class="shape"></div>
+</div>
+<div class="NewUser">
+    <form method="post" action="/users/@Model.Id">
+        <h3>Sign Up Here</h3>
+
+        <label for="FirstName" class="login-form-label">First Name: </label>
+        <input type="text" placeholder="FirstName" id="FirstName" class="login-form-input" name="FirstName" value="@Model.FirstName">
+
+        <label for="LastName" class="login-form-label">Last Name: </label>
+        <input type="text" placeholder="LastName" id="LastName" class="login-form-input" name="LastName" value="@Model.LastName">
+
+        <label for="Email" class="login-form-label">Email: </label>
+        <input type="email" placeholder="Email" id="Email" class="login-form-input" name="Email" value="@Model.Email">
+
+        <label for="GitHubUsername" class="login-form-label">GitHub Username: </label>
+        <input type="text" placeholder="GitHubUsername" id="GitHubUsername" class="login-form-input" name="GitHubUsername" value="@Model.GitHubUsername">
+
+        <label for="password" class="login-form-label"></label>
+        <input type="hidden" placeholder="Password" id="password" class="login-form-input" name="password" value="@Model.Password">
+
+        <br />
+        <div style="text-align:center;">
+            <button type="submit" class="btn btn-primary login-social">Update</button>
+        </div>
+    </form>
+</div>
