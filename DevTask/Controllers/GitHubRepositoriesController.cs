@@ -71,6 +71,15 @@ namespace DevTask.Controllers
 
             var result = await _repositories.GetRepositories(userInfo[2], repo.Name);
 
+            if (result.Id == 0 && result.Name is null && result.OwnerName is null)
+            {
+                var errorView = new ErrorView
+                {
+                    ErrorMessage = $"Invalid response from GitHub API. Check if '{userInfo[2]}' and/or '{repo.Name}' are correct values."
+                };
+                return View("Error", errorView);
+            }
+
             repo.OwnerName = user.FirstName + user.LastName;
             repo.User = user;
             repo.Id = result.Id;
@@ -80,6 +89,19 @@ namespace DevTask.Controllers
             {
                 repo.Description = "No Description";
             }
+
+            bool isDuplicate = _context.GitHubRepositories.Any(r => r.Id == repo.Id);
+
+            if (isDuplicate)
+            {
+                // Return a user-friendly duplicate entry view
+                var duplicateEntryViewModel = new ErrorView
+                {
+                    ErrorMessage = $"The repository '{repo.Name}' for user '{repo.OwnerName}' already exists in the database."
+                };
+                return View("DuplicateEntry", duplicateEntryViewModel);
+            }
+
             _context.GitHubRepositories.Add(repo);
             _context.SaveChanges();
 

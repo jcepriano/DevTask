@@ -5,15 +5,24 @@
 <br />
 
 
-
-@foreach(var repo in Model.GitHubRepositories)
+@if (Model.GitHubRepositories.Count == 0)
 {
-    <a href="/users/@repo.User.Id/repos/@repo.Id">
-        <img src="https://github-readme-stats.vercel.app/api/pin/?username=@repo.User.GitHubUsername&repo=@repo.Name" />
-    </a>
+    <p>This user currently has no repositories</p>
+}
+else
+{
+    foreach (var repo in Model.GitHubRepositories)
+    {
+        <a href="/users/@repo.User.Id/repos/@repo.Id">
+            <img src="https://github-readme-stats.vercel.app/api/pin/?username=@repo.User.GitHubUsername&repo=@repo.Name" />
+        </a>
+    }
 }
 
 
+<form action="/users/@Model.Id/repos/new">
+    <button type="submit" class="btn btn-primary btn-sm" style="margin-top: 5px !important;">Add Repo</button>
+</form>
 <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Settings</a>
 <div class="dropdown-menu" style="">
     <h6 class="dropdown-header">Options</h6>
@@ -24,31 +33,31 @@
         <button type="submit" class="btn btn-primary btn-sm" style="margin-top: 5px !important;">EDIT @Model.FirstName</button>
     </form>
 
-<!--<div class="container">
-    <div class="row">
-@foreach (var repo in Model.GitHubRepositories)
-{
-                    <div class="col-md-4 mb-3">
-                        <a href="/repo/@repo.Id" class="card-link">
-                            <div class="card">
+    <!--<div class="container">
+        <div class="row">
+    @foreach (var repo in Model.GitHubRepositories)
+    {
+                            <div class="col-md-4 mb-3">
                                 <a href="/repo/@repo.Id" class="card-link">
-                                    <ul style="list-style:none">
-                                        <li class="align-card">
-                                            <div class="card mb-3">
-                                                <h4 class="card-header">@repo.Name</h4>
-                                                <div class="card-body">
-                                                    <h5 class="card-title">@repo.OwnerName</h5>
-                                                </div>
-                                                <div class="card-body">
-                                                    <p class="card-text">@repo.Description</p>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
+                                    <div class="card">
+                                        <a href="/repo/@repo.Id" class="card-link">
+                                            <ul style="list-style:none">
+                                                <li class="align-card">
+                                                    <div class="card mb-3">
+                                                        <h4 class="card-header">@repo.Name</h4>
+                                                        <div class="card-body">
+                                                            <h5 class="card-title">@repo.OwnerName</h5>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <p class="card-text">@repo.Description</p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </a>
+                                    </div>
                                 </a>
                             </div>
-                        </a>
-                    </div>
-}
-    </div>
-</div>-->
+    }
+        </div>
+    </div>-->
