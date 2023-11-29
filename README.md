@@ -8,7 +8,8 @@ DevTask is an ASP.NET MVC Web Application, it gives a user the ability to CRUD a
 
 ### Continued Development
 * The feature to Log In with Google is a work in progress. The form is generated but it throws an exception if an attempt is made to use it.
-* More CSS and styling is needed.
+* More CSS and styling is being worked on.
+* When a task is created, an issue will be made in GitHub for that repo.
 
 ![Screenshot 2023-11-16 115622](https://github.com/jcepriano/DevTask/assets/130601095/b40cef58-5fcd-4c4e-b480-2b2b25c7aa5f)
 ![Screenshot 2023-11-16 115724](https://github.com/jcepriano/DevTask/assets/130601095/e82c45fa-f642-4f95-9ba0-98c12d5f57b6)
