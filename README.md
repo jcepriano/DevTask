@@ -15,3 +15,4 @@ DevTask is an ASP.NET MVC Web Application, it gives a user the ability to CRUD a
 ![Screenshot 2023-11-16 115724](https://github.com/jcepriano/DevTask/assets/130601095/e82c45fa-f642-4f95-9ba0-98c12d5f57b6)
 ![Screenshot 2023-11-29 114241](https://github.com/jcepriano/DevTask/assets/130601095/23404f2a-b5e7-40f3-a843-611b4bad72bf)
 ![Screenshot 2023-11-16 115815](https://github.com/jcepriano/DevTask/assets/130601095/b03cf5c3-a1e5-44a5-b011-b058595f1c05)
+![Screenshot 2023-11-29 114835](https://github.com/jcepriano/DevTask/assets/130601095/b42647e5-643f-47f5-8380-1d19e2301510)
