@@ -28,7 +28,7 @@ builder.Services.AddDbContext<DevTaskContext>(
     options =>
         options
             .UseNpgsql(
-                builder.Configuration["DEVTASK_DBCONNECTIONSTRING"]
+                DEVELOPERDASHBOARD_DBCONNECTIONSTRING
                     ?? throw new InvalidOperationException(
                         "Connection string 'DevTaskDB' not found."
                     )
