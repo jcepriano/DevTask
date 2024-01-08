@@ -33,13 +33,15 @@ builder.Services.AddHttpClient("GitHubApi", c => c.BaseAddress = new Uri("https:
 builder.Services.AddDbContext<DevTaskContext>(
     options =>
         options
-            .UseNpgsql(ConnectionHelper.getConnectionString()
+            .UseNpgsql(
+                DEVELOPERDASHBOARD_DBCONNECTIONSTRING
                     ?? throw new InvalidOperationException(
-                            "Connection String 'MYDBNOTFOUND' not found"
-                            )
+                        "Connection string 'DevTaskDB' not found."
                     )
-                    .UseSnakeCaseNamingConvention()
-                    );
+            )
+            .UseSnakeCaseNamingConvention()
+); 
+
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
