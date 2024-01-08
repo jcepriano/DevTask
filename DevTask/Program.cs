@@ -1,17 +1,18 @@
 using DevTask.DataAccess;
+using DevTask.HelperServices;
 using DevTask.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.EntityFrameworkCore;
 
-var builder = WebApplication.CreateBuilder(new WebApplicationOptions()
-{
-    Args = args,
-    ContentRootPath = "/app/out",
-    WebRootPath = "wwwroot",
-});
-
-string DEVELOPERDASHBOARD_DBCONNECTIONSTRING = $"Server={Environment.GetEnvironmentVariable("PGHOST")};Database={Environment.GetEnvironmentVariable("DATABASE_URL")};Port={Environment.GetEnvironmentVariable("PGPORT")};Username={Environment.GetEnvironmentVariable("POSTGRES_USER")};Password={Environment.GetEnvironmentVariable("PGPASSWORD")}";
+//var builder = WebApplication.CreateBuilder(new WebApplicationOptions()
+//{
+//    Args = args,
+//    ContentRootPath = "/app/out",
+//    WebRootPath = "wwwroot",
+//});
+var builder = WebApplication.CreateBuilder(args);
+//string DEVELOPERDASHBOARD_DBCONNECTIONSTRING = $"Server={Environment.GetEnvironmentVariable("PGHOST")};Database={Environment.GetEnvironmentVariable("DATABASE_URL")};Port={Environment.GetEnvironmentVariable("PGPORT")};Username={Environment.GetEnvironmentVariable("POSTGRES_USER")};Password={Environment.GetEnvironmentVariable("PGPASSWORD")}";
 
 
 builder.Services.AddAuthentication(options =>
@@ -32,15 +33,13 @@ builder.Services.AddHttpClient("GitHubApi", c => c.BaseAddress = new Uri("https:
 builder.Services.AddDbContext<DevTaskContext>(
     options =>
         options
-            .UseNpgsql(
-                DEVELOPERDASHBOARD_DBCONNECTIONSTRING
+            .UseNpgsql(ConnectionHelper.getConnectionString()
                     ?? throw new InvalidOperationException(
-                        "Connection string 'DevTaskDB' not found."
+                            "Connection String 'MYDBNOTFOUND' not found"
+                            )
                     )
-            )
-            .UseSnakeCaseNamingConvention()
-); 
-
+                    .UseSnakeCaseNamingConvention()
+                    );
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
