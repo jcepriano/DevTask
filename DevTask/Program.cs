@@ -5,13 +5,13 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.EntityFrameworkCore;
 
-//var builder = WebApplication.CreateBuilder(new WebApplicationOptions()
-//{
-//    Args = args,
-//    ContentRootPath = "/app/out",
-//    WebRootPath = "wwwroot",
-//});
-var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(new WebApplicationOptions()
+{
+    Args = args,
+    ContentRootPath = "/app/out",
+    WebRootPath = "wwwroot",
+});
+//var builder = WebApplication.CreateBuilder(args);
 //string DEVELOPERDASHBOARD_DBCONNECTIONSTRING = $"Server={Environment.GetEnvironmentVariable("PGHOST")};Database={Environment.GetEnvironmentVariable("DATABASE_URL")};Port={Environment.GetEnvironmentVariable("PGPORT")};Username={Environment.GetEnvironmentVariable("POSTGRES_USER")};Password={Environment.GetEnvironmentVariable("PGPASSWORD")}";
 
 
