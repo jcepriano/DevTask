@@ -181,6 +181,12 @@ namespace DevTask.Controllers
         {
             var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
+            if (result?.Succeeded == false)
+            {
+                var failureMessage = result.Failure?.Message;
+                return Content($"Google authentication failed. Error: {failureMessage}");
+            }
+
             var claims = result.Principal.Identities.FirstOrDefault().Claims.Select(c => new
             {
                 c.Issuer,
@@ -188,6 +194,7 @@ namespace DevTask.Controllers
                 c.Type,
                 c.Value
             });
+
             return Json(claims);
         }
 
