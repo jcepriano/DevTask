@@ -179,23 +179,32 @@ namespace DevTask.Controllers
         [Route("/signin-google")]
         public async Task<IActionResult> GoogleResponse()
         {
-            var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-
-            if (result?.Succeeded == false)
+            try
             {
-                var failureMessage = result.Failure?.Message;
-                return Content($"Google authentication failed. Error: {failureMessage}");
+                var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+                if (result?.Succeeded == false)
+                {
+                    // Log or display the error details
+                    var failureMessage = result.Failure?.Message;
+                    return Content($"Google authentication failed. Error: {failureMessage}");
+                }
+
+                var claims = result.Principal.Identities.FirstOrDefault().Claims.Select(c => new
+                {
+                    c.Issuer,
+                    c.OriginalIssuer,
+                    c.Type,
+                    c.Value
+                });
+
+                return Json(claims);
             }
-
-            var claims = result.Principal.Identities.FirstOrDefault().Claims.Select(c => new
+            catch (Exception ex)
             {
-                c.Issuer,
-                c.OriginalIssuer,
-                c.Type,
-                c.Value
-            });
-
-            return Json(claims);
+                // Log or display the exception details
+                return Content($"An error occurred: {ex.Message}");
+            }
         }
 
         [Route("/users/{id:int}/Logout")]
