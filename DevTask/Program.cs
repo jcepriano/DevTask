@@ -5,13 +5,13 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.EntityFrameworkCore;
 
-//var builder = WebApplication.CreateBuilder(new WebApplicationOptions()
-//{
-//    Args = args,
-//    ContentRootPath = "/app/out",
-//    WebRootPath = "wwwroot",
-//});
-var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(new WebApplicationOptions()
+{
+    Args = args,
+    ContentRootPath = "/app/out",
+    WebRootPath = "wwwroot",
+});
+//var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddAuthentication(options =>
 {
