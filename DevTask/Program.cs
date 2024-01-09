@@ -19,11 +19,12 @@ builder.Services.AddAuthentication(options =>
     options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
 })
     .AddCookie()
-    .AddGoogle(GoogleDefaults.AuthenticationScheme, options =>
-    {
-        options.ClientId = builder.Configuration["GoogleKeys:ClientId"];
-        options.ClientSecret = builder.Configuration["GoogleKeys:ClientSecret"];
-    });
+.AddGoogle(GoogleDefaults.AuthenticationScheme, options =>
+{
+    options.ClientId = builder.Configuration["GoogleKeys:ClientId"];
+    options.ClientSecret = builder.Configuration["GoogleKeys:ClientSecret"];
+    options.CallbackPath = "/signin-google";
+});
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<Repositories>();
