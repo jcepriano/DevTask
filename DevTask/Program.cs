@@ -5,15 +5,13 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.EntityFrameworkCore;
 
-var builder = WebApplication.CreateBuilder(new WebApplicationOptions()
-{
-    Args = args,
-    ContentRootPath = "/app/out",
-    WebRootPath = "wwwroot",
-});
-//var builder = WebApplication.CreateBuilder(args);
-//string DEVELOPERDASHBOARD_DBCONNECTIONSTRING = $"Server={Environment.GetEnvironmentVariable("PGHOST")};Database={Environment.GetEnvironmentVariable("DATABASE_URL")};Port={Environment.GetEnvironmentVariable("PGPORT")};Username={Environment.GetEnvironmentVariable("POSTGRES_USER")};Password={Environment.GetEnvironmentVariable("PGPASSWORD")}";
-
+//var builder = WebApplication.CreateBuilder(new WebApplicationOptions()
+//{
+//    Args = args,
+//    ContentRootPath = "/app/out",
+//    WebRootPath = "wwwroot",
+//});
+var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddAuthentication(options =>
 {
@@ -47,11 +45,9 @@ using (var scope = app.Services.CreateScope())
     dbContext.Database.Migrate();
 }
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -67,4 +63,3 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
-//
