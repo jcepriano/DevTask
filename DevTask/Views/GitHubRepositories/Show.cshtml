@@ -8,10 +8,11 @@
 {
     foreach (var task in Model.Tasks)
     {
+        <!--repos/{repoId:int}/tasks/{taskId:int}/edit-->
         <div class="col-md-4 mb-3">
-            <a href="/repo/@task.Id" class="card-link">
+            <a href="@Url.Action("Edit", "Tasks", new { repoId = task.GitHubRepository.Id, taskId = task.Id })" class="card-link">
                 <div class="card">
-                    <a href="/repo/@task.Id" class="card-link">
+                    <a href="@Url.Action("Edit", "Tasks", new { repoId = task.GitHubRepository.Id, taskId = task.Id })" class="card-link">
                         <ul style="list-style:none">
                             <li class="align-card">
                                 <div class="card mb-3">
@@ -26,9 +27,11 @@
                 </div>
             </a>
         </div>
-        <form method=get action="repos/@Model.Id/tasks/@task.Id/edit">
+        <form method="get" action="@Url.Action("Edit", "Tasks", new { repoId = task.GitHubRepository.Id, taskId = task.Id })">
             <button type="submit">Edit Task</button>
         </form>
+
+        <a href="@Url.Action("Edit", "Tasks", new { repoId = task.GitHubRepository.Id, taskId = task.Id })">Edit Task</a>
     }
 }
 else
