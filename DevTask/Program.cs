@@ -33,7 +33,7 @@ builder.Services.AddHttpClient("GitHubApi", c => c.BaseAddress = new Uri("https:
 builder.Services.AddDbContext<DevTaskContext>(
     options =>
         options
-            .UseNpgsql(builder.Configuration["DEVTASK_DBCONNECTIONSTRING"]
+            .UseNpgsql(ConnectionHelper.getConnectionString()
                     ?? throw new InvalidOperationException(
                             "Connection String 'MYDBNOTFOUND' not found"
                             )
