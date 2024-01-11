@@ -40,6 +40,7 @@ builder.Services.AddDbContext<DevTaskContext>(
                     .UseSnakeCaseNamingConvention()
                     );
 var app = builder.Build();
+//builder.Configuration["DEVTASK_DBCONNECTIONSTRING"]
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<DevTaskContext>();
