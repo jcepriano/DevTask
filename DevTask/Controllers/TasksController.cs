@@ -46,7 +46,7 @@ namespace DevTask.Controllers
 
             if (repo == null) return NotFound();
             if (task.Description == null) task.Description = "";
-            
+
             task.IsActive = true;
             task.User = repo.User;
 
@@ -87,6 +87,28 @@ namespace DevTask.Controllers
             _context.SaveChanges();
 
             return Redirect($"/users/{userId}/repos/{repoId}");
+        }
+
+        [HttpPost]
+        [Route("users/{userId:int}/repos/{repoId:int}/tasks/{taskId:int}/status")]
+        public IActionResult ChangeStatus(int taskId, int repoId, int userId)
+        {
+            ViewData["CurrentUser"] = Request.Cookies["CurrentUser"];
+            var task = _context.Tasks
+                .Where(t => t.Id == taskId)
+                .Include(t => t.User)
+                .Include(t => t.GitHubRepository)
+                .FirstOrDefault();
+
+            if (task == null) return NotFound();
+
+            task.IsActive = false;
+
+            _context.Tasks.Update(task);
+            _context.SaveChanges();
+
+            return Redirect($"/users/{userId}/repos/{repoId}");
+
         }
     }
 }

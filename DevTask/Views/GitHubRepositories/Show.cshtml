@@ -3,40 +3,81 @@
 <h1>@Model.Name</h1>
 
 <h3>@Model.Description</h3>
+<a href="/repos/@Model.Id/tasks/new">Add a task</a>
+<br />
+<br />
 
 @if (Model.Tasks != null)
 {
+    <h2>Active Tasks</h2>
     foreach (var task in Model.Tasks)
     {
-        <!--repos/{repoId:int}/tasks/{taskId:int}/edit-->
-        <div class="col-md-4 mb-3">
-            <a href="@Url.Action("Edit", "Tasks", new { repoId = task.GitHubRepository.Id, taskId = task.Id })" class="card-link">
-                <div class="card">
-                    <a href="@Url.Action("Edit", "Tasks", new { repoId = task.GitHubRepository.Id, taskId = task.Id })" class="card-link">
-                        <ul style="list-style:none">
-                            <li class="align-card">
-                                <div class="card mb-3">
-                                    <h4 class="card-header">@task.Name</h4>
-                                    <div class="card-body">
-                                        <p class="card-text">@task.Description</p>
+        if (task.IsActive == true)
+        {
+            
+            <div class="col-md-4 mb-3">
+                <a href="@Url.Action("Edit", "Tasks", new { repoId = task.GitHubRepository.Id, taskId = task.Id })" class="card-link">
+                    <div class="card">
+                        <a href="@Url.Action("Edit", "Tasks", new { repoId = task.GitHubRepository.Id, taskId = task.Id })" class="card-link">
+                            <ul style="list-style:none">
+                                <li class="align-card">
+                                    <div class="card mb-3">
+                                        <h4 class="card-header">@task.Name</h4>
+                                        <div class="card-body">
+                                            <p class="card-text">@task.Description</p>
+                                        </div>
                                     </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </a>
-                </div>
-            </a>
-        </div>
-        <form method="get" action="@Url.Action("Edit", "Tasks", new { repoId = task.GitHubRepository.Id, taskId = task.Id })">
-            <button type="submit">Edit Task</button>
-        </form>
+                                </li>
+                            </ul>
+                        </a>
+                    </div>
+                </a>
+            </div>
+            <style>
+                form {
+                    display: inline-block;
+                    margin-right: 10px; /* Adjust the margin as needed */
+                }
+            </style>
 
-        <a href="@Url.Action("Edit", "Tasks", new { repoId = task.GitHubRepository.Id, taskId = task.Id })">Edit Task</a>
+            <form method="get" action="@Url.Action("Edit", "Tasks", new { repoId = task.GitHubRepository.Id, taskId = task.Id })">
+                <button type="submit">Edit Task</button>
+            </form>
+            <form method="post" action="/users/@Model.User.Id/repos/@Model.Id/tasks/@task.Id/status">
+                <button type="submit">Finish</button>
+            </form>
+
+            <br />
+            <br />
+        }
     }
+
+    <h2>Inactive Tasks</h2>
+    foreach (var task in Model.Tasks)
+    {
+        if (task.IsActive == false)
+        {
+            
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <ul style="list-style:none">
+                        <li class="align-card">
+                            <div class="card mb-3">
+                                <h4 class="card-header">@task.Name</h4>
+                                <div class="card-body">
+                                    <p class="card-text">@task.Description</p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        }
+    }
+
+   
 }
 else
 {
     <p>There are currently no tasks for this repo</p>
 }
-
-<a href="/repos/@Model.Id/tasks/new">Add a task</a>
