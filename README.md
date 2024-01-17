@@ -7,10 +7,8 @@ DevTask is an ASP.NET MVC Web Application, it gives a user the ability to CRUD a
 * Total work-time: **55 Hours**
 
 ### Continued Development
-* The feature to Log In with Google is a work in progress. The form is generated but it throws an exception if an attempt is made to use it.
+* The feature to Log In with Google is a work in progress. The form is generated but it throws an exception if an attempt is made to use it. (In the deployed version of the app, the form doesn't generate at all)
 * When a task is created, an issue will be made in GitHub for that repo.
-* Delete a task.
-* Mark a task as completed.
 * More CSS and styling is being worked on.
 
 
