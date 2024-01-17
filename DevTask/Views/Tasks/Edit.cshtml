@@ -1,6 +1,6 @@
 ﻿@model DevTask.Models.Task
 
-<h1>Add a Task</h1>
+<h1>Edit a Task</h1>
 
 <form method="post" action="/users/@Model.User.Id/repos/@Model.GitHubRepository.Id/tasks/@Model.Id">
     <div class="form-group">
@@ -13,5 +13,5 @@
         <input type="text" id="description" name="description" value="@Model.Description" />
     </div>
     <br />
-    <button type="submit">Create Task</button>
+    <button type="submit">Update Task</button>
 </form>
